@@ -83,6 +83,7 @@
 			this.participantsListBox.FormattingEnabled = true;
 			this.participantsListBox.Location = new System.Drawing.Point(6, 19);
 			this.participantsListBox.Name = "participantsListBox";
+			this.participantsListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
 			this.participantsListBox.Size = new System.Drawing.Size(247, 420);
 			this.participantsListBox.TabIndex = 1;
 			// 

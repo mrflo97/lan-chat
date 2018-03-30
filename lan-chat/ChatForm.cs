@@ -17,10 +17,22 @@ namespace lan_chat
 
 		private volatile bool controlPressed = false;
 
-		public ChatForm()
+		private readonly bool removeParticipantWhenOffline;
+
+		public ChatForm(bool removeParticipantWhenOffline = true)
 		{
 			this.InitializeComponent();
+			this.removeParticipantWhenOffline = removeParticipantWhenOffline;
 		}
+
+		public ChatForm(IEnumerable<string> participants, bool removeParticipantWhenOffline = true) : this(removeParticipantWhenOffline)
+		{
+			foreach (var participant in participants)
+			{
+				var index = this.participantsListBox.Items.Add(participant);
+			}
+		}
+
 		public void ShowMessage(string username, string message)
 		{
 			Tools.SafeInvoke(this.publicChatTextBox,
@@ -37,14 +49,6 @@ namespace lan_chat
 				});
 		}
 
-		public ChatForm(IEnumerable<string> participants) : this()
-		{
-			foreach (var participant in participants)
-			{
-				this.participantsListBox.Items.Add(participant);
-			}
-		}
-
 		public void AddParticipant(ServiceInformation information)
 		{
 			Tools.SafeInvoke(this.participantsListBox, () =>
@@ -54,7 +58,7 @@ namespace lan_chat
 			});
 		}
 
-		public void RemoveParticiapnt(ServiceInformation information)
+		public void RemoveParticipant(ServiceInformation information)
 		{
 			this.participantsListBox.Items.Remove(information.ServiceId);
 			this.participantsListBox.Refresh();

@@ -31,7 +31,7 @@ namespace lan_chat
 			serviceDiscovery.ServiceDiscovered += connectionHandler.ServiceDiscovered;
 			serviceDiscovery.ServiceDiscovered += mainForm.AddParticipant;
 			serviceDiscovery.ServiceOffline += connectionHandler.ServiceOffline;
-			serviceDiscovery.ServiceOffline += mainForm.RemoveParticiapnt;
+			serviceDiscovery.ServiceOffline += mainForm.RemoveParticipant;
 
 			mainForm.SendMessage += connectionHandler.SendMessage;
 			mainForm.OpenPrivateChat += chatWindowManager.OpenChat;
