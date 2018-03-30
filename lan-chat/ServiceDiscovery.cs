@@ -121,26 +121,6 @@ namespace lan_chat
 			info?.Down();
 		}
 
-		private void OnAvailableServicesOnCollectionChanged(object o, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
-		{
-			Task.Run(() => 
-			{
-				switch (notifyCollectionChangedEventArgs.Action)
-				{
-					case NotifyCollectionChangedAction.Add:
-						foreach (var element in notifyCollectionChangedEventArgs.NewItems)
-						{
-						}
-						break;
-					case NotifyCollectionChangedAction.Remove:
-						foreach (var element in notifyCollectionChangedEventArgs.OldItems)
-						{
-						}
-						break;
-				}
-			});
-		}
-
 		private void serviceDiscovered(IPEndPoint endPoint, string serviceId)
 		{
 			var info = new ServiceInformation(endPoint.Address, serviceId, this, this.config);
