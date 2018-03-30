@@ -13,12 +13,14 @@ namespace lan_chat
 
 		public ParticipantList(IEnumerable<string> elements) : base(elements)
 		{
+		    this.Sort();
 		}
 
 		public ParticipantList(string compareString)
 		{
 			var parts = compareString.Split(ParticipantList.Delimiter);
 			this.AddRange(parts);
+		    this.Sort();
 		}
 
 		public string GetCompareString()

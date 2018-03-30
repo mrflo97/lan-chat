@@ -38,11 +38,11 @@ namespace lan_chat
 				ChatForm existingChatForm;
 				if (this.chats.TryGetValue(list, out existingChatForm))
 				{
-					Tools.SafeInvoke(this.mainForm, () =>
+                    /*Tools.SafeInvoke(this.mainForm, () =>
 					{
 						existingChatForm.Activate();
-					});
-					form = existingChatForm;
+					});*/
+                    form = existingChatForm;
 				}
 				else
 				{
@@ -66,7 +66,6 @@ namespace lan_chat
 			{
 				chatForm.SendMessage += msg => this.SendMessage?.Invoke(list, msg);
 				chatForm.OpenPrivateChat += this.OpenChat;
-				chatForm.Text = "Private Chat";
 				//chatForm.Show(this.mainForm);
 				chatForm.Show();
 				chatForm.Closed += (sender, args) => this.chatFormOnClosed(list);

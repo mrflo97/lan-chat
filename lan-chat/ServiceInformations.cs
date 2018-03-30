@@ -12,13 +12,13 @@ namespace lan_chat
 	{
 		private static IEnumerable<IPAddress> availableHosts;
 
-		private static HostScanner scanner = new HostScanner();
+		private static readonly HostScanner scanner = new HostScanner();
 
-		public static string LoggedInUser = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+		public static string LoggedInUser = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();
 
 		public static string HostName = System.Environment.MachineName;
 
-		public static string UserName = $"[{ServiceInformations.HostName}][{ServiceInformations.LoggedInUser}]";
+		public static string UserName = $"{ServiceInformations.HostName}\\{ServiceInformations.LoggedInUser}";
 
 		public static IEnumerable<IPAddress> GetAvailableHosts(bool forceRescan = false)
 		{

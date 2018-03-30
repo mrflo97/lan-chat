@@ -31,22 +31,25 @@ namespace lan_chat
 			{
 				var index = this.participantsListBox.Items.Add(participant);
 			}
+
+		    this.Text = $"Private Chat with {string.Join(", ", participants.Select(x => x.Split('\\').Last()))}";
+
 		}
 
 		public void ShowMessage(string username, string message)
 		{
-			Tools.SafeInvoke(this.publicChatTextBox,
-				() =>
-				{
-					this.publicChatTextBox.DeselectAll();
-					this.publicChatTextBox.SelectionFont = new Font(this.publicChatTextBox.SelectionFont, FontStyle.Bold);
-					this.publicChatTextBox.AppendText(username);
-					this.publicChatTextBox.SelectionFont = new Font(this.publicChatTextBox.SelectionFont, FontStyle.Regular);
-					this.publicChatTextBox.AppendText(": ");
-					this.publicChatTextBox.AppendText(message);
-					this.publicChatTextBox.AppendText("\r\n");
-					this.publicChatTextBox.ScrollToCaret();
-				});
+			Tools.SafeInvoke(this.publicChatTextBox, () =>
+			{
+				this.publicChatTextBox.DeselectAll();
+				this.publicChatTextBox.SelectionFont = new Font(this.publicChatTextBox.SelectionFont, FontStyle.Bold);
+				this.publicChatTextBox.AppendText(username);
+				this.publicChatTextBox.SelectionFont = new Font(this.publicChatTextBox.SelectionFont, FontStyle.Regular);
+				this.publicChatTextBox.AppendText(": ");
+				this.publicChatTextBox.AppendText(message);
+				this.publicChatTextBox.AppendText("\r\n");
+				this.publicChatTextBox.ScrollToCaret();
+                this.Activate();
+			});
 		}
 
 		public void AddParticipant(ServiceInformation information)
@@ -60,8 +63,11 @@ namespace lan_chat
 
 		public void RemoveParticipant(ServiceInformation information)
 		{
-			this.participantsListBox.Items.Remove(information.ServiceId);
-			this.participantsListBox.Refresh();
+            Tools.SafeInvoke(this.participantsListBox, () =>
+            {
+                this.participantsListBox.Items.Remove(information.ServiceId);
+                this.participantsListBox.Refresh();
+            });
 		}
 
 		private void openPrivateChat_Click(object sender, EventArgs e)

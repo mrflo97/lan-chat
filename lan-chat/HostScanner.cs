@@ -44,7 +44,7 @@ namespace lan_chat
 				this.countdown.Signal();
 				if (this.countdown.Wait(timeout))
 				{
-					return this.upHosts;
+					return this.upHosts.Where(x => x != null);
 				}
 				return null;
 			}
