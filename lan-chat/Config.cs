@@ -18,9 +18,9 @@ namespace lan_chat
 
 		public string EncodingString = "utf-8";
 
-		public string MessageSeparator = "x";
+		public string MessageSeparator = "\x02";
 
-		public string PartSeparator = "y";
+		public string PartSeparator = "\x03";
 
 		public int CheckServiceStateInterval = 2000;
 
