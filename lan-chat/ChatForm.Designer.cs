@@ -139,17 +139,21 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.messageTextBox.Location = new System.Drawing.Point(0, 3);
+			this.messageTextBox.Margin = new System.Windows.Forms.Padding(1);
 			this.messageTextBox.Name = "messageTextBox";
 			this.messageTextBox.Size = new System.Drawing.Size(444, 61);
 			this.messageTextBox.TabIndex = 1;
 			this.messageTextBox.Text = "";
+			this.messageTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.messageTextBox_KeyDown);
 			this.messageTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.messageTextBox_KeyPress);
+			this.messageTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.messageTextBox_KeyUp);
 			// 
 			// sendButton
 			// 
 			this.sendButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.sendButton.Location = new System.Drawing.Point(450, 3);
+			this.sendButton.Margin = new System.Windows.Forms.Padding(1);
 			this.sendButton.Name = "sendButton";
 			this.sendButton.Size = new System.Drawing.Size(48, 61);
 			this.sendButton.TabIndex = 2;

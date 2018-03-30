@@ -15,6 +15,8 @@ namespace lan_chat
 	{
 		public event Action<ParticipantList> OpenPrivateChat; public event Action<string> SendMessage;
 
+		private volatile bool controlPressed = false;
+
 		public ChatForm()
 		{
 			this.InitializeComponent();
@@ -80,9 +82,26 @@ namespace lan_chat
 
 		private void messageTextBox_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			if (e.KeyChar == (char)13)
+			if (!this.controlPressed && e.KeyChar == (char)Keys.Enter)
 			{
 				this.sendButton_Click(this.sendButton, new EventArgs());
+				e.Handled = true;
+			}
+		}
+
+		private void messageTextBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.ControlKey)
+			{
+				this.controlPressed = true;
+			}
+		}
+
+		private void messageTextBox_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.ControlKey)
+			{
+				this.controlPressed = false;
 			}
 		}
 	}
