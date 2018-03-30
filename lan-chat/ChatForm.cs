@@ -31,6 +31,7 @@ namespace lan_chat
 					this.publicChatTextBox.AppendText(": ");
 					this.publicChatTextBox.AppendText(message);
 					this.publicChatTextBox.AppendText("\r\n");
+					this.publicChatTextBox.ScrollToCaret();
 				});
 		}
 
@@ -71,9 +72,18 @@ namespace lan_chat
 
 		private void sendButton_Click(object sender, EventArgs e)
 		{
-			this.ShowMessage("self", this.messageTextBox.Text);
-			this.SendMessage?.Invoke(this.messageTextBox.Text);
+			var text = this.messageTextBox.Text.Trim();
+			this.ShowMessage("self", text);
+			this.SendMessage?.Invoke(text);
 			this.messageTextBox.ResetText();
+		}
+
+		private void messageTextBox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == (char)13)
+			{
+				this.sendButton_Click(this.sendButton, new EventArgs());
+			}
 		}
 	}
 }

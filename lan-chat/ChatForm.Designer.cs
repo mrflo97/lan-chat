@@ -32,21 +32,21 @@
 			this.openPrivateChatButton = new System.Windows.Forms.Button();
 			this.participantsListBox = new System.Windows.Forms.ListBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.publicChatSplitContainer = new System.Windows.Forms.SplitContainer();
 			this.publicChatTextBox = new System.Windows.Forms.RichTextBox();
 			this.messageTextBox = new System.Windows.Forms.RichTextBox();
 			this.sendButton = new System.Windows.Forms.Button();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-			this.splitContainer1.Panel1.SuspendLayout();
-			this.splitContainer1.Panel2.SuspendLayout();
-			this.splitContainer1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.publicChatSplitContainer)).BeginInit();
 			this.publicChatSplitContainer.Panel1.SuspendLayout();
 			this.publicChatSplitContainer.Panel2.SuspendLayout();
 			this.publicChatSplitContainer.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupBox1
@@ -65,6 +65,8 @@
 			// 
 			// openPrivateChatButton
 			// 
+			this.openPrivateChatButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.openPrivateChatButton.Location = new System.Drawing.Point(6, 449);
 			this.openPrivateChatButton.Name = "openPrivateChatButton";
 			this.openPrivateChatButton.Size = new System.Drawing.Size(247, 32);
@@ -96,26 +98,6 @@
 			this.groupBox2.TabIndex = 2;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Chat";
-			// 
-			// splitContainer1
-			// 
-			this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.splitContainer1.Location = new System.Drawing.Point(12, 12);
-			this.splitContainer1.Name = "splitContainer1";
-			// 
-			// splitContainer1.Panel1
-			// 
-			this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
-			// 
-			// splitContainer1.Panel2
-			// 
-			this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-			this.splitContainer1.Size = new System.Drawing.Size(795, 493);
-			this.splitContainer1.SplitterDistance = 265;
-			this.splitContainer1.SplitterWidth = 10;
-			this.splitContainer1.TabIndex = 3;
 			// 
 			// publicChatSplitContainer
 			// 
@@ -161,6 +143,7 @@
 			this.messageTextBox.Size = new System.Drawing.Size(444, 61);
 			this.messageTextBox.TabIndex = 1;
 			this.messageTextBox.Text = "";
+			this.messageTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.messageTextBox_KeyPress);
 			// 
 			// sendButton
 			// 
@@ -174,6 +157,26 @@
 			this.sendButton.UseVisualStyleBackColor = true;
 			this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
 			// 
+			// splitContainer1
+			// 
+			this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.splitContainer1.Location = new System.Drawing.Point(12, 12);
+			this.splitContainer1.Name = "splitContainer1";
+			// 
+			// splitContainer1.Panel1
+			// 
+			this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
+			this.splitContainer1.Size = new System.Drawing.Size(795, 493);
+			this.splitContainer1.SplitterDistance = 265;
+			this.splitContainer1.SplitterWidth = 10;
+			this.splitContainer1.TabIndex = 3;
+			// 
 			// ChatForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -184,14 +187,14 @@
 			this.Text = "Public Chat";
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
-			this.splitContainer1.Panel1.ResumeLayout(false);
-			this.splitContainer1.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-			this.splitContainer1.ResumeLayout(false);
 			this.publicChatSplitContainer.Panel1.ResumeLayout(false);
 			this.publicChatSplitContainer.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.publicChatSplitContainer)).EndInit();
 			this.publicChatSplitContainer.ResumeLayout(false);
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+			this.splitContainer1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
