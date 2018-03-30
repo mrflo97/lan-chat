@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lan-chat", "lan-chat\lan-chat.csproj", "{37C30DDC-5F58-47C9-AC90-819FEC6EE5B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lan-chat.Test", "lan-chat.Test\lan-chat.Test.csproj", "{3A416A12-2C55-43E3-A95B-7621386446F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37C30DDC-5F58-47C9-AC90-819FEC6EE5B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37C30DDC-5F58-47C9-AC90-819FEC6EE5B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37C30DDC-5F58-47C9-AC90-819FEC6EE5B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37C30DDC-5F58-47C9-AC90-819FEC6EE5B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A416A12-2C55-43E3-A95B-7621386446F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A416A12-2C55-43E3-A95B-7621386446F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A416A12-2C55-43E3-A95B-7621386446F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A416A12-2C55-43E3-A95B-7621386446F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

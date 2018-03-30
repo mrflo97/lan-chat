@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TakeIo.NetworkAddress</name>
+    </assembly>
+    <members>
+        <member name="T:TakeIo.NetworkAddress.IPNetworkAddress">
+            <summary>
+            Provides an Internet Protocol (IP) address and a network mask.
+            </summary>
+        </member>
+        <member name="M:TakeIo.NetworkAddress.IPNetworkAddress.#ctor(System.Net.IPAddress,System.Net.IPAddress)">
+            <summary>
+            Constructs a new IP network address.
+            </summary>
+            <param name="address">The host address.</param>
+            <param name="mask">The network mask.</param>
+        </member>
+        <member name="M:TakeIo.NetworkAddress.IPNetworkAddress.IsSameNetwork(System.Net.IPAddress)">
+            <summary>
+            Checks if the IP address is in the same network of the
+            current one.
+            </summary>
+            <param name="ipAddress">The input IP address.</param>
+        </member>
+        <member name="M:TakeIo.NetworkAddress.IPNetworkAddress.Parse(System.String)">
+            <summary>
+            Parse a network address specification.
+            </summary>
+            <remarks>
+            <para>
+            The following formats are accepted:
+            <list type="table">
+            <listheader><term>ipString</term><description>Address, Netmask</description></listheader>
+            <item><term>192.168.1.254/255.255.255.0</term><description>192.168.1.254, 255.255.255.0</description></item>
+            <item><term>192.168.1.254/24</term><description>192.168.1.254, 255.255.255.0</description></item>
+            <item><term>192.168.1.*</term><description>192.168.1.0, 255.255.255.0</description></item>
+            <item><term>192.168.*.*</term><description>192.168.0.0, 255.255.0.0</description></item>
+            <item><term>192.168.1.1</term><description>192.168.1.1, 255.255.255.255</description></item>
+            <item><term>192.168.1</term><description>192.168.0.1, 255.255.255.255</description></item>
+            </list>
+            </para>
+            </remarks>
+        </member>
+        <member name="M:TakeIo.NetworkAddress.IPNetworkAddress.ToAddressRange">
+            <summary>
+            Return an IPAddressRange corresponding to the minimal
+            and maximal address for this network.
+            </summary>
+        </member>
+        <member name="P:TakeIo.NetworkAddress.IPNetworkAddress.Address">
+            <summary>
+            The Internet Protocol (IP) address.
+            </summary>
+        </member>
+        <member name="P:TakeIo.NetworkAddress.IPNetworkAddress.Mask">
+            <summary>
+            The IP address network mask.
+            </summary>
+        </member>
+        <member name="P:TakeIo.NetworkAddress.IPNetworkAddress.Network">
+            <summary>
+            The network address of the IP address.
+            </summary>
+        </member>
+        <member name="P:TakeIo.NetworkAddress.IPNetworkAddress.MinAddress">
+            <summary>
+            The minimal valid address in the network address.
+            </summary>
+        </member>
+        <member name="P:TakeIo.NetworkAddress.IPNetworkAddress.Broadcast">
+            <summary>
+            The broadcast IP address.
+            </summary>
+        </member>
+        <member name="P:TakeIo.NetworkAddress.IPNetworkAddress.MaxAddress">
+            <summary>
+            The maximal valid address in the network address.
+            </summary>
+        </member>
+        <member name="T:TakeIo.NetworkAddress.IPAddressRange">
+            <summary>
+            Represents an IP address range.
+            </summary>
+        </member>
+        <member name="M:TakeIo.NetworkAddress.IPAddressRange.#ctor(System.Net.IPAddress,System.Net.IPAddress)">
+            <summary>
+            Construct an IP address range.
+            </summary>
+        </member>
+        <member name="M:TakeIo.NetworkAddress.IPAddressRange.IsIn(System.Net.IPAddress)">
+            <summary>
+            Check if an IP address is in the range.
+            </summary>
+        </member>
+        <member name="M:TakeIo.NetworkAddress.IPAddressRange.Parse(System.String)">
+            <summary>
+            Parse an IP address range.
+            </summary>
+            <remarks>
+            <para>
+            The following formats are accepted:
+            <list type="table">
+            <listheader><term>range</term><description>Min, Max</description></listheader>
+            <item><term>192.168.1.254/255.255.255.0</term><description>192.168.1.1, 192.168.1.254</description></item>
+            <item><term>192.168.1.254/24</term><description>192.168.1.1, 192.168.1.254</description></item>
+            <item><term>192.168.1.254/255.255.255.254</term><description>192.168.1.254, 192.168.1.255</description></item>
+            <item><term>192.168.1.254/31</term><description>192.168.1.254, 192.168.1.255</description></item>
+            <item><term>192.168.1.*</term><description>192.168.1.1, 192.168.1.254</description></item>
+            <item><term>192.168.*.*</term><description>192.168.0.1, 192.168.255.254</description></item>
+            <item><term>192.168.1.1</term><description>192.168.1.1, 192.168.1.1</description></item>
+            <item><term>192.168.1.1-192.168.2.1</term><description>192.168.1.1, 192.168.2.1</description></item>
+            </list>
+            </para>
+            </remarks>
+        </member>
+        <member name="P:TakeIo.NetworkAddress.IPAddressRange.MinAddress">
+            <summary>
+            The minimal IP address.
+            </summary>
+        </member>
+        <member name="P:TakeIo.NetworkAddress.IPAddressRange.MaxAddress">
+            <summary>
+            The maximal IP address.
+            </summary>
+        </member>
+    </members>
+</doc>
