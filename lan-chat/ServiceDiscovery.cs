@@ -18,7 +18,7 @@ namespace lan_chat
 
 		public event Action<ServiceInformation> ServiceOffline;
 
-		public ObservableCollection<ServiceInformation> AvailableServices;
+		public List<ServiceInformation> AvailableServices;
 
 		public static ServiceDiscovery Instance { get; private set; }
 
@@ -36,8 +36,7 @@ namespace lan_chat
 
 		public ServiceDiscovery(Config config)
 		{
-			this.AvailableServices = new ObservableCollection<ServiceInformation>();
-			this.AvailableServices.CollectionChanged += this.OnAvailableServicesOnCollectionChanged;
+			this.AvailableServices = new List<ServiceInformation>();
 			this.receiver = new UdpReceiver(config, config.DiscoveryPort, config.MessageSeparator);
 			this.receiver.MessageReceived += this.onMessageReceived;
 			this.sender = new UdpClient(AddressFamily.InterNetwork);
@@ -104,6 +103,18 @@ namespace lan_chat
 				.First();
 		}
 
+		public void AddService(ServiceInformation info)
+		{
+			this.ServiceDiscovered?.Invoke(info);
+			this.AvailableServices.Add(info);
+		}
+
+		public void RemoveService(ServiceInformation info)
+		{
+			this.ServiceOffline?.Invoke(info);
+			this.AvailableServices.Remove(info);
+		}
+
 		private void gotNoServiceRequestAnswer(IPEndPoint endPoint)
 		{
 			ServiceInformation info = this.AvailableServices.FirstOrDefault(x => x.Host.ToString() == endPoint.Address.ToString());
@@ -119,13 +130,11 @@ namespace lan_chat
 					case NotifyCollectionChangedAction.Add:
 						foreach (var element in notifyCollectionChangedEventArgs.NewItems)
 						{
-							this.ServiceDiscovered?.Invoke((ServiceInformation)element);
 						}
 						break;
 					case NotifyCollectionChangedAction.Remove:
 						foreach (var element in notifyCollectionChangedEventArgs.OldItems)
 						{
-							Task.Run(() => this.ServiceOffline?.Invoke((ServiceInformation)element));
 						}
 						break;
 				}
@@ -135,8 +144,8 @@ namespace lan_chat
 		private void serviceDiscovered(IPEndPoint endPoint, string serviceId)
 		{
 			var info = new ServiceInformation(endPoint.Address, serviceId, this, this.config);
-			info.ServiceDown += () => this.AvailableServices.Remove(info);
-			this.AvailableServices.Add(info);
+			info.ServiceDown += () => this.RemoveService(info);
+			this.AddService(info);
 		}
 
 		private void onMessageReceived(IPEndPoint ipEndPoint, string msg)

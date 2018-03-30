@@ -70,15 +70,11 @@ namespace lan_chat.Test
 				using (var sender = new UdpClient(AddressFamily.InterNetwork))
 				{
 					var received = new ManualResetEvent(false);
-					discovery.AvailableServices.CollectionChanged += (o, args) =>
+					discovery.ServiceDiscovered += info =>
 					{
-						if (args.Action == NotifyCollectionChangedAction.Add)
-						{
-							var info = (ServiceInformation)args.NewItems[0];
-							Assert.AreEqual(info.Host.ToString(), "127.0.0.1");
-							Assert.AreEqual(info.ServiceId, "flo");
-							received.Set();
-						}
+						Assert.AreEqual(info.Host.ToString(), "127.0.0.1");
+						Assert.AreEqual(info.ServiceId, "flo");
+						received.Set();
 					};
 					discovery.Start();
 					var msg = Tools.BuildMessage(config, "service-announce", "flo");
@@ -107,26 +103,19 @@ namespace lan_chat.Test
 				using (var discovery2 = new ServiceDiscovery(config2))
 				{
 					var received1 = new ManualResetEvent(false);
-					discovery1.AvailableServices.CollectionChanged += (o, args) =>
-					{
-						if (args.Action == NotifyCollectionChangedAction.Add)
-						{
-							var info = (ServiceInformation)args.NewItems[0];
-							Assert.AreEqual(IPAddress.Loopback.ToString(), info.Host.ToString());
-							Assert.AreEqual(ServiceInformations.UserName, info.ServiceId);
-							received1.Set();
-						}
-					};
 					var received2 = new ManualResetEvent(false);
-					discovery2.AvailableServices.CollectionChanged += (o, args) =>
+
+					discovery1.ServiceDiscovered += info =>
 					{
-						if (args.Action == NotifyCollectionChangedAction.Add)
-						{
-							var info = (ServiceInformation)args.NewItems[0];
-							Assert.AreEqual(IPAddress.Loopback.ToString(), info.Host.ToString());
-							Assert.AreEqual(ServiceInformations.UserName, info.ServiceId);
-							received2.Set();
-						}
+						Assert.AreEqual(IPAddress.Loopback.ToString(), info.Host.ToString());
+						Assert.AreEqual(ServiceInformations.UserName, info.ServiceId);
+						received1.Set();
+					};
+					discovery1.ServiceDiscovered += info =>
+					{
+						Assert.AreEqual(IPAddress.Loopback.ToString(), info.Host.ToString());
+						Assert.AreEqual(ServiceInformations.UserName, info.ServiceId);
+						received2.Set();
 					};
 					discovery1.Start();
 					discovery2.Start();
