@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace lan_chat
 {
@@ -15,14 +16,15 @@ namespace lan_chat
 	{
 		public event Action<ParticipantList> OpenPrivateChat; public event Action<string> SendMessage;
 
-		private volatile bool controlPressed = false;
-
 		private readonly bool removeParticipantWhenOffline;
+
+	    private readonly MessageStorage sentMsgs;
 
 		public ChatForm(bool removeParticipantWhenOffline = true)
 		{
 			this.InitializeComponent();
 			this.removeParticipantWhenOffline = removeParticipantWhenOffline;
+		    this.sentMsgs = new MessageStorage(30);
 		}
 
 		public ChatForm(IEnumerable<string> participants, bool removeParticipantWhenOffline = true) : this(removeParticipantWhenOffline)
@@ -88,31 +90,49 @@ namespace lan_chat
 			this.ShowMessage("self", text);
 			this.SendMessage?.Invoke(text);
 			this.messageTextBox.ResetText();
-		}
-
-		private void messageTextBox_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (!this.controlPressed && e.KeyChar == (char)Keys.Enter)
-			{
-				this.sendButton_Click(this.sendButton, new EventArgs());
-				e.Handled = true;
-			}
+            this.sentMsgs.AddMsg(text);
 		}
 
 		private void messageTextBox_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.ControlKey)
+			if (!e.Control && e.KeyCode == Keys.Enter)
 			{
-				this.controlPressed = true;
-			}
-		}
+			    this.sendButton_Click(this.sendButton, new EventArgs());
+			    e.Handled = true;
+            }
+			else if (e.Control && e.KeyCode == Keys.Up)
+			{
+			    this.messageTextBox.Text = this.sentMsgs.Last();
+			    e.Handled = true;
+            }
+			else if (e.Control && e.KeyCode == Keys.Down)
+			{
+			    this.messageTextBox.Text = this.sentMsgs.Next();
+			    e.Handled = true;
+            }
+		    
+        }
 
-		private void messageTextBox_KeyUp(object sender, KeyEventArgs e)
-		{
-			if (e.KeyCode == Keys.ControlKey)
-			{
-				this.controlPressed = false;
-			}
-		}
-	}
+        private void publicChatTextBox_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            this.linkClicked(e);
+        }
+
+        private void messageTextBox_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            this.linkClicked(e);
+        }
+
+	    private void linkClicked(LinkClickedEventArgs e)
+	    {
+	        try
+	        {
+	            Process.Start(e.LinkText);
+	        }
+	        catch (Exception exception)
+	        {
+	            MessageBox.Show($"Couldn't open link, {exception.GetType()} occured: {exception.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+	        }
+        }
+    }
 }

@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="ChatWindowManager.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="MessageStorage.cs" />
     <Compile Include="ParticipantList.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="UdpConnectionHandler.cs" />
