@@ -1,0 +1,1 @@
+start "" ".\lan-chat\bin\Debug\lan-chat.exe"

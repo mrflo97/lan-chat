@@ -22,16 +22,19 @@ namespace lan_chat
 
         public void AddMsg(string msg)
         {
-            if (this.nextIndex == oldMsgs.Length)
+            if (this.nextIndex == 0 || this.oldMsgs[this.nextIndex - 1] != msg)
             {
-                var buffer = new string[this.oldMsgs.Length];
-                Array.Copy(this.oldMsgs, 1, buffer, 0, oldMsgs.Length - 1);
-                buffer[buffer.Length - 1] = msg;
-            }
-            else
-            {
-                this.oldMsgs[nextIndex++] = msg;
-                this.outputIndex = nextIndex;
+                if (this.nextIndex == oldMsgs.Length)
+                {
+                    var buffer = new string[this.oldMsgs.Length];
+                    Array.Copy(this.oldMsgs, 1, buffer, 0, oldMsgs.Length - 1);
+                    buffer[buffer.Length - 1] = msg;
+                }
+                else
+                {
+                    this.oldMsgs[nextIndex++] = msg;
+                    this.outputIndex = nextIndex;
+                }
             }
         }
 
