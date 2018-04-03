@@ -14,17 +14,38 @@ namespace lan_chat
 {
 	public partial class ChatForm : Form
 	{
-		public event Action<ParticipantList> OpenPrivateChat; public event Action<string> SendMessage;
+		public event Action<ParticipantList> OpenPrivateChat;
+
+	    public event Action<string> SendMessage;
 
 		private readonly bool removeParticipantWhenOffline;
 
 	    private readonly MessageStorage sentMsgs;
+
+	    private static bool _enableGlobalNotifications = true;
+
+	    private static bool enableGlobalNotfications
+	    {
+	        get => _enableGlobalNotifications;
+	        set
+	        {
+	            if (value != _enableGlobalNotifications)
+	            {
+	                _enableGlobalNotifications = value;
+                    instances.ForEach(instance => instance.SetGlobalNotificationState(value));
+	            }
+	        }
+	    }
+
+	    private static readonly List<ChatForm> instances = new List<ChatForm>();
 
 		public ChatForm(bool removeParticipantWhenOffline = true)
 		{
 			this.InitializeComponent();
 			this.removeParticipantWhenOffline = removeParticipantWhenOffline;
 		    this.sentMsgs = new MessageStorage(30);
+		    ChatForm.instances.Add(this);
+		    this.globalNotificationCheckbox.Checked = ChatForm.enableGlobalNotfications;
 		}
 
 		public ChatForm(IEnumerable<string> participants, bool removeParticipantWhenOffline = true) : this(removeParticipantWhenOffline)
@@ -50,7 +71,10 @@ namespace lan_chat
 				this.publicChatTextBox.AppendText(message);
 				this.publicChatTextBox.AppendText("\r\n");
 				this.publicChatTextBox.ScrollToCaret();
-                this.Activate();
+			    if (this.globalNotificationCheckbox.Checked && this.localNotificationCheckbox.Checked)
+			    {
+			        this.Activate();
+                }
 			});
 		}
 
@@ -71,6 +95,16 @@ namespace lan_chat
                 this.participantsListBox.Refresh();
             });
 		}
+
+	    public void SetGlobalNotificationState(bool state)
+	    {
+            Tools.SafeInvoke(this.globalNotificationCheckbox, () =>
+            {
+                this.globalNotificationCheckbox.CheckedChanged -= this.globalNotificationCheckbox_CheckedChanged;
+                this.globalNotificationCheckbox.Checked = state;
+                this.globalNotificationCheckbox.CheckedChanged += this.globalNotificationCheckbox_CheckedChanged;
+            });
+        }
 
 		private void openPrivateChat_Click(object sender, EventArgs e)
 		{
@@ -133,6 +167,16 @@ namespace lan_chat
 	        {
 	            MessageBox.Show($"Couldn't open link, {exception.GetType()} occured: {exception.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 	        }
+        }
+
+        private void globalNotificationCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            ChatForm.enableGlobalNotfications = this.globalNotificationCheckbox.Checked;
+        }
+
+        private void ChatForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ChatForm.instances.Remove(this);
         }
     }
 }

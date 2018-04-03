@@ -73,7 +73,7 @@ namespace lan_chat
 			return chatForm;
 		}
 
-		private void chatFormOnClosed(ParticipantList list)
+	    private void chatFormOnClosed(ParticipantList list)
 		{
 			if (!this.closing)
 			{
