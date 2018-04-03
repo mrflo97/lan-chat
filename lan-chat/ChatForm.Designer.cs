@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChatForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.openPrivateChatButton = new System.Windows.Forms.Button();
             this.participantsListBox = new System.Windows.Forms.ListBox();
@@ -145,9 +146,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.messageTextBox.Location = new System.Drawing.Point(1, 3);
-            this.messageTextBox.Margin = new System.Windows.Forms.Padding(1);
+            this.messageTextBox.Margin = new System.Windows.Forms.Padding(0);
             this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(443, 57);
+            this.messageTextBox.Size = new System.Drawing.Size(443, 63);
             this.messageTextBox.TabIndex = 1;
             this.messageTextBox.Text = "";
             this.messageTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.messageTextBox_LinkClicked);
@@ -160,7 +161,7 @@
             this.sendButton.Location = new System.Drawing.Point(450, 3);
             this.sendButton.Margin = new System.Windows.Forms.Padding(1);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(48, 57);
+            this.sendButton.Size = new System.Drawing.Size(48, 63);
             this.sendButton.TabIndex = 2;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = true;
@@ -231,6 +232,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(819, 517);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ChatForm";
             this.Text = "Public Chat";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ChatForm_FormClosing);
