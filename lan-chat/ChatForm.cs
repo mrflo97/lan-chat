@@ -158,6 +158,7 @@ namespace lan_chat
 			var text = this.messageTextBox.Text.Trim();
             if(text == this.lastSentMessage && this.lastSentStopwatch.ElapsedMilliseconds < 5000)
             {
+                this.lastSentStopwatch.Restart();
                 MessageBox.Show("Spam nit so gschissn");
                 return;
             }
