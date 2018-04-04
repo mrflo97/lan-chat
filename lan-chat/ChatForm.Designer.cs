@@ -100,7 +100,7 @@
             this.groupBox2.Controls.Add(this.publicChatSplitContainer);
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(514, 487);
+            this.groupBox2.Size = new System.Drawing.Size(508, 487);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Chat";
@@ -122,7 +122,7 @@
             // 
             this.publicChatSplitContainer.Panel2.Controls.Add(this.messageTextBox);
             this.publicChatSplitContainer.Panel2.Controls.Add(this.sendButton);
-            this.publicChatSplitContainer.Size = new System.Drawing.Size(501, 462);
+            this.publicChatSplitContainer.Size = new System.Drawing.Size(495, 462);
             this.publicChatSplitContainer.SplitterDistance = 385;
             this.publicChatSplitContainer.SplitterWidth = 10;
             this.publicChatSplitContainer.TabIndex = 5;
@@ -135,7 +135,7 @@
             this.publicChatTextBox.Location = new System.Drawing.Point(0, 0);
             this.publicChatTextBox.Name = "publicChatTextBox";
             this.publicChatTextBox.ReadOnly = true;
-            this.publicChatTextBox.Size = new System.Drawing.Size(498, 382);
+            this.publicChatTextBox.Size = new System.Drawing.Size(492, 382);
             this.publicChatTextBox.TabIndex = 0;
             this.publicChatTextBox.Text = "";
             this.publicChatTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.publicChatTextBox_LinkClicked);
@@ -148,7 +148,7 @@
             this.messageTextBox.Location = new System.Drawing.Point(1, 3);
             this.messageTextBox.Margin = new System.Windows.Forms.Padding(0);
             this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(443, 63);
+            this.messageTextBox.Size = new System.Drawing.Size(437, 57);
             this.messageTextBox.TabIndex = 1;
             this.messageTextBox.Text = "";
             this.messageTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.messageTextBox_LinkClicked);
@@ -158,10 +158,10 @@
             // 
             this.sendButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sendButton.Location = new System.Drawing.Point(450, 3);
+            this.sendButton.Location = new System.Drawing.Point(444, 3);
             this.sendButton.Margin = new System.Windows.Forms.Padding(1);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(48, 63);
+            this.sendButton.Size = new System.Drawing.Size(48, 57);
             this.sendButton.TabIndex = 2;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = true;

@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,11 +19,19 @@ namespace lan_chat
 
 	    public event Action<string> SendMessage;
 
+        private NotifyIcon notify;
+
 		private readonly bool removeParticipantWhenOffline;
 
 	    private readonly MessageStorage sentMsgs;
 
-	    private static bool _enableGlobalNotifications = true;
+        private Stopwatch lastSentStopwatch;
+
+        private string lastSentMessage;
+
+        private static bool _enableGlobalNotifications = true;
+
+	    private static readonly List<ChatForm> instances = new List<ChatForm>();
 
 	    private static bool enableGlobalNotfications
 	    {
@@ -37,25 +46,29 @@ namespace lan_chat
 	        }
 	    }
 
-	    private static readonly List<ChatForm> instances = new List<ChatForm>();
-
-		public ChatForm(bool removeParticipantWhenOffline = true)
+        public ChatForm(bool removeParticipantWhenOffline = true)
 		{
-			this.InitializeComponent();
+            this.lastSentStopwatch = new Stopwatch();
+            this.notify = new NotifyIcon();
+            this.notify.Text = this.Text;
+            this.notify.Icon = SystemIcons.Information;
+            this.notify.Visible = true;
+            this.notify.BalloonTipClicked += (sender, e) => this.toFront();
+            this.InitializeComponent();
 			this.removeParticipantWhenOffline = removeParticipantWhenOffline;
 		    this.sentMsgs = new MessageStorage(30);
 		    ChatForm.instances.Add(this);
 		    this.globalNotificationCheckbox.Checked = ChatForm.enableGlobalNotfications;
 		}
 
-		public ChatForm(IEnumerable<string> participants, bool removeParticipantWhenOffline = true) : this(removeParticipantWhenOffline)
+        public ChatForm(IEnumerable<string> participants, bool removeParticipantWhenOffline = true) : this(removeParticipantWhenOffline)
 		{
 			foreach (var participant in participants)
 			{
 				var index = this.participantsListBox.Items.Add(participant);
 			}
 
-		    this.Text = $"Private Chat with {string.Join(", ", participants.Select(x => x.Split('\\').Last()))}";
+		    this.Text = $"Chat with {string.Join(", ", participants.Where(participant => participant != ServiceInformations.UserName).Select(x => x.Split('\\').Last()))}";
 
 		}
 
@@ -71,9 +84,10 @@ namespace lan_chat
 				this.publicChatTextBox.AppendText(message);
 				this.publicChatTextBox.AppendText("\r\n");
 				this.publicChatTextBox.ScrollToCaret();
-			    if (this.globalNotificationCheckbox.Checked && this.localNotificationCheckbox.Checked)
+			    if (this.globalNotificationCheckbox.Checked && this.localNotificationCheckbox.Checked && !this.isActive(this.Handle))
 			    {
-			        this.Activate();
+                    this.showToast((this.Text == "Public Chat" ? "public: " : "private: ") + username.Split('\\').Last(), message);
+                    this.Activate();
                 }
 			});
 		}
@@ -106,7 +120,28 @@ namespace lan_chat
             });
         }
 
-		private void openPrivateChat_Click(object sender, EventArgs e)
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        private bool isActive(IntPtr handle)
+        {
+            IntPtr activeHandle = GetForegroundWindow();
+            return (activeHandle == handle);
+        }
+
+        private void toFront()
+        {
+            this.WindowState = FormWindowState.Minimized;
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void showToast(string title, string content)
+        {
+            this.notify.ShowBalloonTip(2, title, content, ToolTipIcon.Info);
+        }
+
+        private void openPrivateChat_Click(object sender, EventArgs e)
 		{
 			if (this.participantsListBox.SelectedItems.Count > 0)
 			{
@@ -121,10 +156,20 @@ namespace lan_chat
 		private void sendButton_Click(object sender, EventArgs e)
 		{
 			var text = this.messageTextBox.Text.Trim();
-			this.ShowMessage("self", text);
-			this.SendMessage?.Invoke(text);
-			this.messageTextBox.ResetText();
-            this.sentMsgs.AddMsg(text);
+            if(text == this.lastSentMessage && this.lastSentStopwatch.ElapsedMilliseconds < 5000)
+            {
+                MessageBox.Show("Spam nit so gschissn");
+                return;
+            }
+            if (text != string.Empty)
+            {
+                this.lastSentMessage = text;
+                this.lastSentStopwatch.Restart();
+                this.ShowMessage("self", text);
+                this.SendMessage?.Invoke(text);
+                this.sentMsgs.AddMsg(text);
+            }
+            this.messageTextBox.ResetText();
 		}
 
 		private void messageTextBox_KeyDown(object sender, KeyEventArgs e)
