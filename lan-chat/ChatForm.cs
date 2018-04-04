@@ -48,17 +48,27 @@ namespace lan_chat
 
         public ChatForm(bool removeParticipantWhenOffline = true)
 		{
-            this.lastSentStopwatch = new Stopwatch();
-            this.notify = new NotifyIcon();
-            this.notify.Text = this.Text;
-            this.notify.Icon = SystemIcons.Information;
-            this.notify.Visible = true;
-            this.notify.BalloonTipClicked += (sender, e) => this.toFront();
+            this.lastSentStopwatch = new Stopwatch();            
             this.InitializeComponent();
 			this.removeParticipantWhenOffline = removeParticipantWhenOffline;
 		    this.sentMsgs = new MessageStorage(30);
 		    ChatForm.instances.Add(this);
 		    this.globalNotificationCheckbox.Checked = ChatForm.enableGlobalNotfications;
+            this.Shown += (sender, e) =>
+            {
+                var resources = new System.ComponentModel.ComponentResourceManager(typeof(ChatForm));
+                this.BeginInvoke(new Action(() =>
+                {
+                    this.notify = new NotifyIcon();
+                    this.notify.Text = this.Text;
+                    this.notify.Icon = ((Icon)(resources.GetObject("$this.Icon")));
+                    this.notify.Visible = true;
+                    this.notify.BalloonTipClicked += (sender1, e1) =>
+                    {
+                        this.toFront();
+                    };
+                }));
+            };
 		}
 
         public ChatForm(IEnumerable<string> participants, bool removeParticipantWhenOffline = true) : this(removeParticipantWhenOffline)
@@ -70,9 +80,9 @@ namespace lan_chat
 
 		    this.Text = $"Chat with {string.Join(", ", participants.Where(participant => participant != ServiceInformations.UserName).Select(x => x.Split('\\').Last()))}";
 
-		}
+        }
 
-		public void ShowMessage(string username, string message)
+        public void ShowMessage(string username, string message)
 		{
 			Tools.SafeInvoke(this.publicChatTextBox, () =>
 			{
@@ -223,6 +233,7 @@ namespace lan_chat
         private void ChatForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             ChatForm.instances.Remove(this);
+            this.notify.Dispose();
         }
     }
 }

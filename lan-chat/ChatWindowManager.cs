@@ -66,7 +66,6 @@ namespace lan_chat
 			{
 				chatForm.SendMessage += msg => this.SendMessage?.Invoke(list, msg);
 				chatForm.OpenPrivateChat += this.OpenChat;
-				//chatForm.Show(this.mainForm);
 				chatForm.Show();
 				chatForm.Closed += (sender, args) => this.chatFormOnClosed(list);
 			});
